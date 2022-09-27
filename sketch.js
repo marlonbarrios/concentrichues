@@ -4,8 +4,6 @@
 
 //music by by Michael Ramir C.
 
-
-
 let audioContext;
 let frequencyData;
 let analyserNode;
@@ -130,7 +128,7 @@ function windowResized() {
 
 function draw() {
   // fill background
-  background(255);
+  background(255, 5);
   noStroke();
 
   ellipseMode(CENTER);
@@ -152,19 +150,19 @@ function draw() {
   const dim = min(width, height);
 
   colorMode(HSL);
-  currentHue = damp(currentHue, maxFrequencyTarget, 0.01, deltaTime);
+  currentHue = damp(currentHue, maxFrequencyTarget, 0.03, deltaTime);
 
   let hueA = currentHue;
   let hueB = (hueA + 40 ) % 360;
-  // const colorA = color(hueA, 50, 50);
-  // const colorB = color(hueB, 50, 50);
+  const colorA = color(hueA, 50, 50);
+  const colorB = color(hueB, 50, 50);
 
   const maxSize = dim * 0.90;
-  const minSize = dim * 0.05;
+  const minSize = dim * 0.03;
 
-  const count =  100;
+  const count =  20;
 
-  background(currentHue, 50, 50);
+  background(currentHue, 50, 50, 5);
 
   for (let i = 0; i < count; i++) {
     const t = map(i, 0, count - 1, 0, 1);
@@ -181,10 +179,16 @@ function draw() {
 
     const baseSize = map(i, 0, count - 1, maxSize, minSize);
     const size = baseSize + (maxSize / 6) * signal;
-    const edge = 0.5;
+    const edge = 0.3;
 
     fill(c);
-    ellipse(cx, cy + ((maxSize - size) * edge) / 2, size, size);
+   
+    stroke(c)
+    rectMode(CENTER) 
+   
+   
+    rect(cx, cy + width/3, size / edge , size);
+    ellipse(cx, cy + ((maxSize - size) * edge) / 3, size, size);
   }
 
   if (!audioContext) {
